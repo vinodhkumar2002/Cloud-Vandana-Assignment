@@ -1,0 +1,356 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Form Validation</title>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons"rel="stylesheet">
+    <style>
+        *{
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            outline: none;
+        }
+
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #607680;
+            min-height: 100vh;
+            margin: 0;
+        }
+
+        .container{
+            background-color: white;
+            border-radius: 5px;
+            width: 400px;
+            max-width: 100%;
+            overflow: hidden;
+        }
+        .header{
+            background-color: #f7f7f7;
+            padding: 20px 40px;
+            border-bottom: 1px solid #f0f0f0;
+        }
+
+        .header h2{
+            margin: 0;
+        }
+
+        .form{
+            padding: 30px 40px;
+        }
+
+        .field{
+            margin-bottom: 10px;
+            padding-bottom: 20px;
+            position: relative;
+        }
+        .field label{
+            display: inline-block;
+            margin-bottom: 5px;
+        }
+
+        .field input:not(.terms){
+            display: block;
+            border-radius: 4px;
+            border:2px solid #f0f0f0;
+            font-size: 14px;
+            width: 100%;
+            padding: 10px;
+
+        }
+
+
+        .field span{
+            position: absolute;
+            top:30px;
+            right: 10px;
+            visibility: hidden;
+        }
+
+        .field small{
+            position: absolute;
+            bottom: 0px;
+            left: 0;
+            visibility: hidden;
+        }
+        .form .button{
+            background-color: rgb(90, 104, 235);
+            border: 2px solid rgb(90, 104, 235);
+            color: white;
+            padding: 10px;
+            display: block;
+            width: 100%;
+            font-size: 16px;
+        }
+
+        .field.success input{
+            border-color: #2ecc71;
+        }
+
+        .field.error input{
+            border-color: #e74c3c;
+        }
+
+
+        .field.success span.success{
+            color: #2ecc71;
+            visibility: visible;
+        }
+        .field.error span.error{
+            color: #e74c3c;
+            visibility: visible;
+        }
+
+        .field.error span.success{
+            visibility: none;
+        
+        }
+
+        .field.succes span.error{
+            visibility: none;
+        
+        }
+
+        .field.error small{
+            visibility: visible;
+            color: #e74c3c;
+        
+        }
+
+    </style>
+</head>
+
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h2>Register Here</h2>
+        </div>
+        <form class="form" id="form">
+            <div class="field">
+                <label >First name</label>
+                <input type="text" placeholder="Enter your first name" id="fname">
+                <span class="material-icons success"> check_circle</span>
+                <span class="material-icons error ">error</span>
+                <small>Error message</small>
+            </div>
+            <div class="field">
+                <label >Last name</label>
+                <input type="text" placeholder="Enter your last name" id="lname">
+                <span class="material-icons success"> check_circle</span>
+                <span class="material-icons error ">error</span>
+                <small>Error message</small>
+            </div>
+            <div class="field ">
+                <label>DOB</label>
+                <input type="date" placeholder="DD/MM/YYYY" id="dob">        
+            </div>
+            <div class="field">
+                <label>Country</label>
+                <select name="Country" id="country" required>
+                    <option value="America">America</option>
+                    <option value="Brazil">Brazil</option>
+                    <option value="India">India</option>
+                    <option value="Tokyo">Tokyo</option>
+                    <option value="Newyork">Newyork</option>
+                </select>
+            </div>
+            <div class="field" >
+                Gender: 
+                <input type="checkbox" value="Male" class="terms">
+                <label>Male</label> 
+                <input type="checkbox" value="Female" class="terms">
+                <label>Female</label>
+                <input type="checkbox" value="Others" class="terms">
+                <label>Others</label>
+                <small>Error message</small>
+            </div>
+            <div class="field">
+                <label >Profession</label>
+                <input type="text" placeholder="Enter your profession" id="prof">
+                <span class="material-icons success"> check_circle</span>
+                <span class="material-icons error ">error</span>
+                <small>Error message</small>
+            </div>
+            <div class="field">
+                <label>Email</label>
+                <input type="email" placeholder="Enter your email" id="email">
+                <span class="material-icons success "> check_circle</span>
+                <span class="material-icons error">error</span>
+                <small>Error message</small>
+            </div>
+            <div class="field">
+                <label>Contact No</label>
+                <input type="number" placeholder="Enter your mobile number" id="contact">
+                <span class="material-icons success"> check_circle</span>
+                <span class="material-icons error">error</span>
+                <small>Error message</small>
+            </div>
+    
+            <input type="Reset" class="button" onclick="resetForm()"><br>
+            <input type="submit" class="button"  onmouseover="validate()" onclick="submitForm()">
+            
+        </form>
+    </div>
+</body>
+
+<script>
+    var form = document.getElementById("form")
+
+    var uname = document.getElementById("fname")
+
+    var lname = document.getElementById("lname")
+
+    var prof = document.getElementById("prof")
+
+    var email = document.getElementById("email")
+
+    var contact = document.getElementById("contact")
+
+
+
+    form.addEventListener('submit',(e)=>{
+
+        e.preventDefault()
+        validate()
+    })
+
+
+    function validate(){
+        let nameValue = uname.value.trim()
+        let emailValue = email.value.trim()
+        let contactValue = contact.value.trim()
+
+
+        //First name check
+
+        if(nameValue===''){
+            setError(fname,' name cannot be empty')
+        }
+        else if(nameValue.length<3){
+            setError(fname,'user name should be minimum 3 characters')
+        }
+        else{        
+            setSuccesss(fname)
+        }
+        //Last name check
+
+        if(nameValue===''){
+            setError(lname,' name cannot be empty')
+        }
+        else if(nameValue.length<3){
+            setError(lname,'user name should be minimum 3 characters')
+        }
+        else{        
+            setSuccesss(lname)
+        }
+
+
+        //Profession check
+
+        if(nameValue===''){
+            setError(prof,' Profession cannot be empty')
+        }
+        else if(nameValue.length<3){
+            setError(fname,'profession should be minimum 3 characters')
+        }
+        else{        
+            setSuccesss(prof)
+        }
+
+
+        //email check
+        if(emailValue===''){
+            setError(email,'Eamil cannot be empty')
+        }  
+        else if(!emailCheck(emailValue)){
+            setError(email,'Enter Valid Email Id')
+        }
+        else{        
+            setSuccesss(email)
+        }
+
+        
+        //Contact check
+
+        if(contactValue===''){
+            setError(contact,'contact cannot be empty')
+        }
+        else if(contactValue.length<10){
+            setError(contact,'user name should be minimum 10 characters')
+        }
+        else{        
+            setSuccesss(contact)
+        }
+
+        
+        
+    
+        function setError(input,message){
+            let parent = input.parentElement;
+            let small = parent.querySelector('small')
+            small.innerText = message
+            parent.classList.add('error')
+            parent.classList.remove('success')
+        }
+        function setSuccesss(input){
+            let parent = input.parentElement;
+            parent.classList.add('success')
+            parent.classList.remove('error')
+        }
+
+
+        function emailCheck(input){
+            let emailReg = /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/;
+            let valid = emailReg.test(input)       
+            return valid
+        }
+    }
+
+
+    // Pop Up Form
+    function submitForm() {
+        
+        var firstName = document.getElementById("fname").value;
+        var lastName = document.getElementById("lname").value;
+        var dob = document.getElementById("dob").value;
+        var country = document.getElementById("country").value;
+        var gender = document.querySelectorAll('input[type="checkbox"]:checked');
+        var profession = document.getElementById("prof").value;
+        var email = document.getElementById("email").value;
+        var mobile = document.getElementById("contact").value;
+
+        var popupContent = `
+            <p>First Name: ${firstName}</p>
+            <p>Last Name: ${lastName}</p>
+            <p>Date of Birth: ${dob}</p>
+            <p>Country: ${country}</p>
+            <p>Gender: ${Array.from(gender).map(g => g.value).join(", ")}</p>
+            <p>Profession: ${profession}</p>
+            <p>Email: ${email}</p>
+            <p>Mobile Number: ${mobile}</p></br>
+            <p><center><h1>Thank you for submitting the form</h1></center></p>
+
+        `
+        
+        ;
+
+        
+
+        var popup = window.open("", "Survey Data", "width=600,height=400,top=150,left=350");
+        popup.document.write(popupContent);
+    }
+
+    function resetForm() {
+        document.getElementById("surveyForm").reset();
+    }
+
+
+</script>
+
+
+</html>

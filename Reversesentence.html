@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Reverse Words in a Sentence</title>
+</head>
+<body>
+    <h1>Reverse Words in a Sentence</h1>
+
+    <form id="reverseForm">
+        <label for="sentence">Enter a sentence:</label>
+        <input type="text" id="sentence" required>
+        <button type="button" onclick="reverseWords()">Reverse</button>
+    </form>
+
+    <p><strong>Reversed Sentence:</strong> <span id="reversedSentence"></span></p>
+
+    <script>
+        function reverseWords() {
+            // Get the input sentence
+            const inputSentence = document.getElementById("sentence").value;
+
+            // Split the sentence into words, reverse them, and join them back
+            const reversedWords = inputSentence.split(" ").map(word => {
+                return word.split('').reverse().join('');
+            });
+
+            // Join the reversed words back into a sentence
+            const reversedSentence = reversedWords.join(" ");
+
+            // Display the reversed sentence
+            document.getElementById("reversedSentence").textContent = reversedSentence;
+        }
+    </script>
+</body>
+</html>
